@@ -1,5 +1,7 @@
 package com.playinfinitycraft.infinitycraft;
 
+import com.playinfinitycraft.infinitycraft.files.ConfigFile;
+import com.playinfinitycraft.infinitycraft.files.ConfigFileSetup;
 import com.playinfinitycraft.infinitycraft.gui.PlayerMenuUtility;
 import com.playinfinitycraft.infinitycraft.gui.commands.KillCommand;
 import com.playinfinitycraft.infinitycraft.gui.commands.SuicideCommand;
@@ -7,6 +9,7 @@ import com.playinfinitycraft.infinitycraft.gui.listeners.MenuListener;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public final class InfinityCraft extends JavaPlugin {
@@ -18,6 +21,14 @@ public final class InfinityCraft extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+
+        getConfig().options().copyDefaults();
+
+        try {
+            ConfigFileSetup.setup();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         plugin = this;
 

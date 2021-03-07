@@ -1,11 +1,16 @@
 name: InfinityCraft
 version: ${project.version}
-main: com.playinfinitycraft.infinity.Infinity
+main: com.playinfinitycraft.infinitycraft.InfinityCraft
 api-version: 1.16
 prefix: InfinityCraft Dev
-loadbefore: [ loadbeforetest ]
-depend: [ loadbeforetest ]
-softdepend: [ loadbeforetest ]
+loadbefore:
+depend:
+softdepend:
 authors: [ bradybellini ]
 description: InfinityCraft Plugin Interface
 website: playinfinitycraft.com
+commands:
+  suicide:
+    description: kys
+  killplayer:
+    description: Choose a player to kill
