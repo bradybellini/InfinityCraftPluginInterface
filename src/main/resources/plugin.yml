@@ -1,0 +1,11 @@
+name: InfinityCraft
+version: ${project.version}
+main: com.playinfinitycraft.infinity.Infinity
+api-version: 1.16
+prefix: InfinityCraft Dev
+loadbefore: [ loadbeforetest ]
+depend: [ loadbeforetest ]
+softdepend: [ loadbeforetest ]
+authors: [ bradybellini ]
+description: InfinityCraft Plugin Interface
+website: playinfinitycraft.com
