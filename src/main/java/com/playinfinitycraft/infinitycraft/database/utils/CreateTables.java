@@ -19,7 +19,7 @@ public class CreateTables {
 
         Bukkit.getLogger().info("Player Table Created");
     }
-// TODO test this table, have not generated it yet
+// TODO test this table, have not generated it yet ADD ON DELETE ACTION
     public void factionTable(Postgres psql) throws SQLException {
         PreparedStatement ps;
 
