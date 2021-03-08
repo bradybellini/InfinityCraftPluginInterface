@@ -1,1 +1,3 @@
-marvin: 'god'
+dbusername: ''
+dbpassword: ''
+jdbcurl: 'jdbc:postgresql://'

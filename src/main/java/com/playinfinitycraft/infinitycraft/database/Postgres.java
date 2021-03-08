@@ -1,8 +1,8 @@
 package com.playinfinitycraft.infinitycraft.database;
 
-import com.playinfinitycraft.infinitycraft.files.ConfigFile;
-import com.zaxxer.hikari.HikariConfig;
+import com.playinfinitycraft.infinitycraft.InfinityCraft;
 import com.zaxxer.hikari.HikariDataSource;
+import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,14 +17,20 @@ public class Postgres {
 
     public void connect(String poolname) throws SQLException {
         if (!isConnected()) {
+
+            Bukkit.getLogger().info("Connection attempted");
+
             HikariDataSource ds = new HikariDataSource();
-            ds.setJdbcUrl(ConfigFile.get().getString("jdbcurl"));
-            ds.setUsername(ConfigFile.get().getString("dbusername"));
-            ds.setPassword(ConfigFile.get().getString("dbpassword"));
-            ds.setDriverClassName("PostgreSQL");
+            ds.setJdbcUrl(InfinityCraft.getPlugin().getConfig().getString("jdbcurl"));
+            ds.setUsername(InfinityCraft.getPlugin().getConfig().getString("dbusername"));
+            ds.setPassword(InfinityCraft.getPlugin().getConfig().getString("dbpassword"));
+            ds.setDriverClassName("org.postgresql.Driver");
             ds.setPoolName(poolname);
 
             conn = ds.getConnection();
+            Bukkit.getLogger().info("Connected");
+
+
         }
 
     }
