@@ -24,7 +24,7 @@ public class CreateTables {
         PreparedStatement ps;
 
         ps = psql.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS public.faction " +
-                "(id SERIAL NOT NULL, name varchar, member_count int DEFAULT 0, tag varchar, player_id int, " +
+                "(id SERIAL NOT NULL, name varchar, member_count int DEFAULT 1, tag varchar, player_id int, " +
                 "CONSTRAINT faction_pkey PRIMARY KEY (id), CONSTRAINT faction_name_unique UNIQUE (name), " +
                 "CONSTRAINT faction_tag_unique UNIQUE, CONSTRAINT player_id_fkey FOREIGN KEY(player_id) " +
                 "REFERENCES player(id))");
