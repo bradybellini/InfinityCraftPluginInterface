@@ -25,10 +25,13 @@ public class Database {
 
     public void createTables() throws SQLException {
         create.playerTable(postgres);
+        create.factionTypeTable(postgres);
+        create.factionRankTable(postgres);
+        create.factionTable(postgres);
+        create.factionMembersTable(postgres);
     }
 
     public void insertPlayer(Player player) throws SQLException {
-        Bukkit.getLogger().info("test inside db");
         insert.player(postgres, player);
 
     }

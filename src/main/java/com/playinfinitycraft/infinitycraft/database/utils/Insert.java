@@ -12,12 +12,11 @@ public class Insert {
     public void player(Postgres psql, Player player) throws SQLException {
 
         PreparedStatement ps;
-        Bukkit.getLogger().info("test inside insert");
         ps = psql.getConnection().prepareStatement("INSERT INTO player (uuid) VALUES(?) " +
                 "ON CONFLICT (uuid) DO NOTHING");
         ps.setString(1, player.getPlayer().getUniqueId().toString());
         ps.executeUpdate();
-        Bukkit.getLogger().info("test inside insert after");
+        Bukkit.getLogger().info("New Player Inserted");
 
     }
 }
