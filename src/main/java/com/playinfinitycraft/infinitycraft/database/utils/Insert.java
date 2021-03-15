@@ -19,6 +19,10 @@ public class Insert {
         Bukkit.getLogger().info("New Player Inserted");
 
     }
+
+    public void newFactions(Postgres psql, Player player, String[] args) {
+
+    }
 }
 
 // INSERT INTO player (uuid)

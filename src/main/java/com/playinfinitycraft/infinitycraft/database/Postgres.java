@@ -18,7 +18,7 @@ public class Postgres {
     public void connect(String poolname) throws SQLException {
         if (!isConnected()) {
 
-            Bukkit.getLogger().info("Connection attempted");
+            Bukkit.getLogger().info("Database connection attempted");
 
             HikariDataSource ds = new HikariDataSource();
             ds.setJdbcUrl(InfinityCraft.getPlugin().getConfig().getString("jdbcurl"));
@@ -28,7 +28,7 @@ public class Postgres {
             ds.setPoolName(poolname);
 
             conn = ds.getConnection();
-            Bukkit.getLogger().info("Connected");
+            Bukkit.getLogger().info("Database connected");
 
 
         }

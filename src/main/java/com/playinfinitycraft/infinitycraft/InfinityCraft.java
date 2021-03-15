@@ -1,16 +1,21 @@
 package com.playinfinitycraft.infinitycraft;
 
 import com.playinfinitycraft.infinitycraft.database.Database;
+import com.playinfinitycraft.infinitycraft.database.Redis;
+import com.playinfinitycraft.infinitycraft.events.ItemRightClick;
 import com.playinfinitycraft.infinitycraft.events.PlayerJoin;
-import com.playinfinitycraft.infinitycraft.files.ConfigFileSetup;
+import com.playinfinitycraft.infinitycraft.events.PlayerLeave;
+import com.playinfinitycraft.infinitycraft.events.PlayerMessage;
+import com.playinfinitycraft.infinitycraft.general.commands.BaseCommands;
 import com.playinfinitycraft.infinitycraft.gui.PlayerMenuUtility;
 import com.playinfinitycraft.infinitycraft.gui.commands.KillCommand;
 import com.playinfinitycraft.infinitycraft.gui.commands.SuicideCommand;
 import com.playinfinitycraft.infinitycraft.gui.listeners.MenuListener;
+import com.playinfinitycraft.infinitycraft.items.ItemManager;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -18,6 +23,7 @@ public final class InfinityCraft extends JavaPlugin {
 
     private static final HashMap<Player, PlayerMenuUtility> playerMenuUtilityMap = new HashMap<>();
     public Database db = new Database();
+    public Redis rd = new Redis(db);
     public static InfinityCraft plugin;
 
     @Override
@@ -29,20 +35,41 @@ public final class InfinityCraft extends JavaPlugin {
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
+        // DATABASE STUFF
+
         try {
             db.connect();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        try {
+            rd.connect();
+        } catch (JedisConnectionException e) {
+            e.printStackTrace();
+        }
+
+        //ITEMS
+        ItemManager.init();
+
 
         // COMANDS
         getCommand("suicide").setExecutor(new SuicideCommand());
         getCommand("killplayer").setExecutor(new KillCommand());
+        getCommand("ic").setExecutor(new BaseCommands());
 
         // EVENTS
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoin(db), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoin(db, rd), this);
+        getServer().getPluginManager().registerEvents(new ItemRightClick(), this);
+        getServer().getPluginManager().registerEvents(new PlayerMessage(), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeave(rd), this);
+
+        try {
+            db.fetchAllFactions();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -53,6 +80,12 @@ public final class InfinityCraft extends JavaPlugin {
         try {
             db.disconnect();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            rd.getConnection().destroy();
+        } catch (JedisConnectionException e) {
             e.printStackTrace();
         }
 

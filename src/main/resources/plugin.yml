@@ -14,3 +14,15 @@ commands:
     description: kys
   killplayer:
     description: Choose a player to kill
+    permission: infinitycraft.killplayer
+    usage: /<command>
+  ic:
+    description: Base Command for InfinityCraft
+    aliases: [infinitycraft|marvin ]
+    permission: infinitycraft.base
+    usage: /<command> [give|take]
+permissions:
+  infinitycrafy.killplayer:
+    description: Allows killplayer commmand
+
+
