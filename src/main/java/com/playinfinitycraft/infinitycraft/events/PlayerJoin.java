@@ -1,5 +1,6 @@
 package com.playinfinitycraft.infinitycraft.events;
 
+import com.playinfinitycraft.infinitycraft.database.Cache;
 import com.playinfinitycraft.infinitycraft.database.Database;
 import com.playinfinitycraft.infinitycraft.database.Redis;
 import org.bukkit.Bukkit;
@@ -13,12 +14,12 @@ import java.sql.SQLException;
 public class PlayerJoin implements Listener {
 
     private final Database db;
-    private final Redis rd;
+    private final Cache cache;
 
-    public PlayerJoin(Database db, Redis rd) {
+    public PlayerJoin(Database db, Cache cache) {
 
         this.db = db;
-        this.rd = rd;
+        this.cache = cache;
     }
 
 
@@ -27,9 +28,9 @@ public class PlayerJoin implements Listener {
         Bukkit.getLogger().info("Player " + event.getPlayer().getDisplayName() + " has joined");
         db.insertPlayer(event.getPlayer());
 
-        try (Jedis jedis = rd.getConnection().getResource()) {
-            jedis.set("player", event.getPlayer().getDisplayName());
-        }
+//        try (Jedis jedis = rd.getConnection().getResource()) {
+//            jedis.set("player", event.getPlayer().getDisplayName());
+//        }
 //        event.getPlayer().setResourcePack("https://cdn.discordapp.com/attachments/623699580390998038/818374497563312128/Infinity_Textures.zip");
 
     }

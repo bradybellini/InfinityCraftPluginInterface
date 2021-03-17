@@ -1,5 +1,6 @@
 package com.playinfinitycraft.infinitycraft.events;
 
+import com.playinfinitycraft.infinitycraft.database.Cache;
 import com.playinfinitycraft.infinitycraft.database.Redis;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,19 +9,19 @@ import redis.clients.jedis.Jedis;
 
 public class PlayerLeave implements Listener {
 
-    private Redis rd;
+    private Cache cache;
 
-    public PlayerLeave(Redis rd) {
+    public PlayerLeave(Cache cache) {
 
-        this.rd = rd;
+        this.cache = cache;
 
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        try (Jedis jedis = rd.getConnection().getResource()) {
-            jedis.del("player");
-        }
+//        try (Jedis jedis = cache.getConnection().getResource()) {
+//            jedis.del("player");
+//        }
     }
 
 }

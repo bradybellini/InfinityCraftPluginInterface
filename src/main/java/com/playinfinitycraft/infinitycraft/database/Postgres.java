@@ -11,7 +11,7 @@ public class Postgres {
 
     private Connection conn;
 
-    public boolean isConnected() {
+    private boolean isConnected() {
         return (conn != null);
     }
 

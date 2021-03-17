@@ -1,7 +1,7 @@
 package com.playinfinitycraft.infinitycraft;
 
+import com.playinfinitycraft.infinitycraft.database.Cache;
 import com.playinfinitycraft.infinitycraft.database.Database;
-import com.playinfinitycraft.infinitycraft.database.Redis;
 import com.playinfinitycraft.infinitycraft.events.ItemRightClick;
 import com.playinfinitycraft.infinitycraft.events.PlayerJoin;
 import com.playinfinitycraft.infinitycraft.events.PlayerLeave;
@@ -23,7 +23,8 @@ public final class InfinityCraft extends JavaPlugin {
 
     private static final HashMap<Player, PlayerMenuUtility> playerMenuUtilityMap = new HashMap<>();
     public Database db = new Database();
-    public Redis rd = new Redis(db);
+//    public Redis rd = new Redis(db);
+    public Cache cache = new Cache(db);
     public static InfinityCraft plugin;
 
     @Override
@@ -44,8 +45,8 @@ public final class InfinityCraft extends JavaPlugin {
         }
 
         try {
-            rd.connect();
-        } catch (JedisConnectionException e) {
+            cache.connect();
+        } catch (JedisConnectionException | SQLException e) {
             e.printStackTrace();
         }
 
@@ -60,10 +61,10 @@ public final class InfinityCraft extends JavaPlugin {
 
         // EVENTS
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoin(db, rd), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoin(db, cache), this);
         getServer().getPluginManager().registerEvents(new ItemRightClick(), this);
         getServer().getPluginManager().registerEvents(new PlayerMessage(), this);
-        getServer().getPluginManager().registerEvents(new PlayerLeave(rd), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeave(cache), this);
 
         try {
             db.fetchAllFactions();
@@ -84,7 +85,7 @@ public final class InfinityCraft extends JavaPlugin {
         }
 
         try {
-            rd.getConnection().destroy();
+            cache.disconnect();
         } catch (JedisConnectionException e) {
             e.printStackTrace();
         }

@@ -15,7 +15,7 @@ public class Fetch {
     public ResultSet allFactions(Postgres psql) throws SQLException {
 
         PreparedStatement ps;
-        ps = psql.getConnection().prepareStatement("SELECT name, tag FROM faction");
+        ps = psql.getConnection().prepareStatement("SELECT id, name, tag, member_count, npc FROM faction");
 
         ResultSet rs = ps.executeQuery();
 

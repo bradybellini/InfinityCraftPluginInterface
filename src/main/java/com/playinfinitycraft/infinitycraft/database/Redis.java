@@ -1,6 +1,7 @@
 package com.playinfinitycraft.infinitycraft.database;
 
 import com.playinfinitycraft.infinitycraft.InfinityCraft;
+import org.bukkit.Bukkit;
 import redis.clients.jedis.Connection;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -16,7 +17,7 @@ public class Redis {
 //    private Integer rPort = InfinityCraft.getPlugin().getConfig().getInt("redis-port");
 //    private String rPass = InfinityCraft.getPlugin().getConfig().getString("redis-pass");
 
-    private final Database db;
+    private  Database db;
     private JedisPool jedisPool;
 
 
@@ -24,7 +25,13 @@ public class Redis {
         this.db = db;
     }
 
-    public void init() {
+    public Redis() {
+
+    }
+
+    public void init() throws SQLException {
+        loadFactions();
+
 
 
     }
@@ -36,12 +43,15 @@ public class Redis {
         if (rs != null) {
             while (rs.next()) {
                 ResultSetMetaData rsmd = rs.getMetaData();
-                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    try (Jedis jedis = this.getConnection().getResource()) {
-                        jedis.sadd("factions", "name:tag");
-                    }
-
+                try (Jedis jedis = this.getConnection().getResource()) {
+                    jedis.sadd("factions", rs.getString(1) + ":" + rs.getString(2));
                 }
+                Bukkit.getLogger().info(rs.getString(1) + ":" + rs.getString(2));
+//                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+//
+//                    Bukkit.getLogger().info(rs.getString(i));
+//
+//                }
             }
         }
 
@@ -63,7 +73,7 @@ public class Redis {
                 , InfinityCraft.getPlugin().getConfig().getInt("redis-port")
                 , 1000, InfinityCraft.getPlugin().getConfig().getString("redis-pass"));
 
-        this.init();
+
 
     }
 

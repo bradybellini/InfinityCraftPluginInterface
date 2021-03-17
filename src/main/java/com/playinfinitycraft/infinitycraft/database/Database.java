@@ -16,10 +16,14 @@ public class Database {
     private final Insert insert = new Insert();
     private final Fetch fetch = new Fetch();
 
+    public void init() throws SQLException {
+        this.createTables();
+    }
+
     public void connect() throws SQLException {
         postgres.connect("infinity-1");
         Bukkit.getLogger().info("Connected to db with pool name infinity-1");
-        this.createTables();
+
     }
 
     public void disconnect() throws SQLException {
