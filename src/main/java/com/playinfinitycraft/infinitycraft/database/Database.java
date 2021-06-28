@@ -40,13 +40,18 @@ public class Database {
 
     public void insertPlayer(Player player) throws SQLException {
         insert.player(postgres, player);
-
     }
 
     public ResultSet fetchAllFactions() throws SQLException {
         return fetch.allFactions(postgres);
     }
 
-    // db.insert.player()
+    public ResultSet fetchAllFactionsId() throws SQLException {
+        return fetch.allFactionsId(postgres);
+    }
+
+    public ResultSet fetchFactionById(int id) throws SQLException {
+        return fetch.factionById(postgres, id);
+    }
 
 }

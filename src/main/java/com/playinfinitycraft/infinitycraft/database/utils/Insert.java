@@ -20,8 +20,13 @@ public class Insert {
 
     }
 
-    public void newFactions(Postgres psql, Player player, String[] args) {
-
+    public void newFactions(Postgres psql, Player player, String[] args) throws SQLException {
+        PreparedStatement ps;
+        ps = psql.getConnection().prepareStatement("INSERT INTO faction (name, tag, faction_type_id) VALUES(?) " +
+                "ON CONFLICT (uuid) DO NOTHING");
+        ps.setString(1, player.getPlayer().getUniqueId().toString());
+        ps.executeUpdate();
+        Bukkit.getLogger().info("New Player Inserted");
     }
 }
 

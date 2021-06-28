@@ -29,10 +29,7 @@ public class Postgres {
 
             conn = ds.getConnection();
             Bukkit.getLogger().info("Database connected");
-
-
         }
-
     }
 
     public void disconnect() throws SQLException {

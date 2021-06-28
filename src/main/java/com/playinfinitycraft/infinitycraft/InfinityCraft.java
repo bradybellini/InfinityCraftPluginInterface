@@ -79,16 +79,27 @@ public final class InfinityCraft extends JavaPlugin {
         // Plugin shutdown logic
 
         try {
-            db.disconnect();
+            cache.unloadCache();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         try {
             cache.disconnect();
-        } catch (JedisConnectionException e) {
+        } catch (JedisConnectionException | SQLException e) {
             e.printStackTrace();
         }
+
+        try {
+            db.disconnect();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
 
     }
 
